@@ -7,8 +7,11 @@ import {
     ServiceSignature,
     ControllerSignature,
     IServiceResolve,
+    JWTokenCookieOptionsProduction,
+    JWTokenCookieOptionsDev,
 } from "../types/index.types";
 import { ICookieOptions } from "../interfaces/response.interface";
+import getEnvVariable from "../utils/getEnvVariable";
 
 
 type ServiceWithSession<SDIn, SDOut, SECs extends SECsEnum> = {
@@ -161,6 +164,16 @@ const ServiceErrorCodeHandler = <T extends object>(
     }
 }
 
+const getJWTCookieOptions = () => {
+    const env = getEnvVariable("ENV", true);
+
+    if (env === "production") {
+        return JWTokenCookieOptionsProduction;
+    }
+    else {
+        return JWTokenCookieOptionsDev;
+    }
+}
 
 export default generateSimpleController;
-
+export { getJWTCookieOptions };

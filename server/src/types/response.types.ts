@@ -33,9 +33,16 @@ export enum DefaultResponseMessagesEnum {
     "Too Many Requests." = 429,
 }
 
-export const JWTokenCookieOptions: ICookieOptions = {
+export const JWTokenCookieOptionsDev: ICookieOptions = {
     maxAge: 2700000,
     httpOnly: true,
     secure: false,
-    sameSite: 'strict',
+    sameSite: 'lax',
+}
+
+export const JWTokenCookieOptionsProduction: ICookieOptions = {
+    maxAge: 2700000,
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
 }

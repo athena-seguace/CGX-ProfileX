@@ -1,6 +1,6 @@
 import authService from "../services/auth.service";
-import generateSimpleController from "./core.controller";
-import { JWTokenCookieOptions, SuccessResponseCodesEnum } from "../types/index.types";
+import generateSimpleController, { getJWTCookieOptions } from "./core.controller";
+import { SuccessResponseCodesEnum } from "../types/index.types";
 import { GroupedControllerParams } from "../interfaces/index.interface";
 
 
@@ -35,7 +35,7 @@ const authController = {
                         {
                             name: "token",
                             value: sDOut.token,
-                            option: JWTokenCookieOptions
+                            option: getJWTCookieOptions()
                         }
                     ]
                 },
@@ -55,7 +55,7 @@ const authController = {
                         {
                             name: "token",
                             value: sDOut.token,
-                            option: JWTokenCookieOptions
+                            option: getJWTCookieOptions()
                         }
                     ]
                 }
