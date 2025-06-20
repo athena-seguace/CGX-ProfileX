@@ -2,11 +2,7 @@ import axios from "axios";
 import type { IResponse } from "../interfaces/index.interface";
 import { APIsSCsEnum } from "../types/apis.types";
 
-/**
- * Hardcoding the api base url.
- * Reason: Not able to understand how vite + docker handles env variable.
- */
-const API_BASE_URL = "http://localhost:5500/api/v1";
+const API_BASE_URL = import.meta.env.VITE_SERVER_API_BASE_URL;
 
 const axiosInstance = axios.create({
     validateStatus: () => true,

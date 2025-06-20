@@ -7,6 +7,7 @@ yarn-error.log
 # dotenv
 .env
 .env.local
+.env.development
 
 # Logs
 *.log
