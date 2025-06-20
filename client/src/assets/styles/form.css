@@ -1,0 +1,19 @@
+@reference "./global.css";
+
+/*
+.form {
+    @apply flex flex-col gap-4;
+}
+
+.form-element {
+    @apply flex flex-col gap-2;
+}
+
+.form-element > p {
+    @apply text-t-primary font-medium;
+}
+
+.form-element > input {
+    @apply w-full h-11 px-4 text-t-secondary placeholder-t-secondary border border-separator rounded-md focus:outline-none focus:border focus:border-primary;
+}
+*/

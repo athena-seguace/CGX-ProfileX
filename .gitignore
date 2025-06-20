@@ -1,0 +1,38 @@
+# Node
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# dotenv
+.env
+.env.local
+
+# Logs
+*.log
+
+# Build output
+dist
+build
+
+# TypeScript
+*.tsbuildinfo
+
+# Docker
+Dockerfile
+docker-compose.override.yml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vite cache
+.vite
+
+# Editor
+.idea
+.vscode
+*.swp
+
+# Others
+coverage

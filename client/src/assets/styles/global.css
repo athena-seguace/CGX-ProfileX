@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+    --color-primary: #40a9ff;
+    --color-primaryS: #1890ff;
+
+    --color-t-primary: #000000e0;
+    --color-t-secondary: #000000a6;
+    --color-t-muted: #00000040;
+    --color-t-onAccent: #ffffffd9;
+
+    --color-base: #f9fafb;
+    --color-surface: #ffffff;
+    --color-separator: #cfcfcf;
+
+    --color-accent-green: #52c41a;
+    --color-accent-greenS: #73d13d;
+
+    --color-accent-red: #ff4d4f;
+    --color-accent-redS: #ff7875;
+
+    --shadow-card: 0px 6px 16px -8px rgba(0, 0, 0, 0.08),
+        0px 9px 28px 0px rgba(0, 0, 0, 0.05),
+        0px 12px 48px 16px rgba(0, 0, 0, 0.03);
+}
+
+* {
+    transition: all 0.35s;
+}
+
+.light {
+    --color-primary: #40a9ff;
+    --color-primaryS: #1890ff;
+
+    --color-t-primary: #000000e0;
+    --color-t-secondary: #000000a6;
+    --color-t-muted: #00000040;
+    --color-t-onAccent: #ffffffd9;
+
+    --color-base: #f9fafb;
+    --color-surface: #ffffff;
+    --color-separator: #cfcfcf;
+
+    --color-accent-green: #52c41a;
+    --color-accent-greenS: #73d13d;
+
+    --color-accent-red: #ff4d4f;
+    --color-accent-redS: #ff7875;
+}
+
+.dark {
+    --color-primary: #177ddc;
+    --color-primaryS: #3c9ae8;
+
+    --color-t-primary: #ffffffd9;
+    --color-t-secondary: #ffffffa6;
+    --color-t-muted: #ffffff40;
+    --color-t-onAccent: #ffffffd9;
+
+    --color-base: #0f172a;
+    --color-surface: #1e293b;
+    --color-separator: #5f5f5f;
+
+    --color-accent-green: #49aa19;
+    --color-accent-greenS: #3c8618;
+
+    --color-accent-red: #a61d24;
+    --color-accent-redS: #791a1f;
+}
+
+.font-italiana {
+    font-family: "Italiana", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
