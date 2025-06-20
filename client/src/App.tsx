@@ -30,11 +30,13 @@ const App = () => {
                                     element={<SignUpAuthPage />}
                                 />
                             </Route>
-                            <Route path="/profile" element={<ProfilePage />} />
-                            <Route
-                                path="/profile/edit-bio"
-                                element={<EditBioPage />}
-                            />
+                            <Route path="/profile">
+                                <Route index element={<ProfilePage />} />
+                                <Route
+                                    path="edit-bio"
+                                    element={<EditBioPage />}
+                                />
+                            </Route>
                         </Route>
                         <Route path="/loading" element={<LoadingPage />} />
                         <Route path="*" element={<NotFoundPage />} />
