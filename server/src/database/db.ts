@@ -46,8 +46,8 @@ const connectToDatabase = async (retryInterval = 2000): Promise<void> => {
             const result = await connectToDatabase_internal();
 
             if (result === true) {
-                return systemLogger(LogLevels.INFO, 'MongoDB: Database connected successfully.');
                 maxRetries = 10;
+                return systemLogger(LogLevels.INFO, 'MongoDB: Database connected successfully.');
             } else {
                 return systemLogger(LogLevels.WARN, 'MongoDB: Attempting to reconnect to database when it\'s already connected.');
             }
@@ -60,16 +60,18 @@ const connectToDatabase = async (retryInterval = 2000): Promise<void> => {
     }
 };
 
-mongoose.connection.on('disconnected', () => {
-    systemLogger(LogLevels.ERROR, 'MongoDB: Database disconnected.');
-    systemLogger(LogLevels.WARN, 'MongoDB: Attempting to reconnect...');
-    connectToDatabase();
-});
+const closeDatabaseConnection = async () => {
+    try {
+        await mongoose.connection.close();
 
-
-mongoose.connection.on('reconnected', () => {
-    systemLogger(LogLevels.INFO, 'MongoDB: Database reconnected.');
-});
+        systemLogger(LogLevels.INFO, 'MongoDB: Database connection closed successfully.');
+    }
+    catch (error) {
+        systemLogger(LogLevels.INFO, 'MongoDB: Error while closing database connection.',
+            { error }
+        );
+    }
+}
 
 const getDatabaseConnection = async (): Promise<typeof mongoose> => {
     if (!isConnected()) {
@@ -94,21 +96,10 @@ const checkDatabaseConnectionStatus = async (): Promise<boolean> => {
     return isConnected();
 };
 
-process.on('SIGINT', async () => {
-    await mongoose.connection.close();
-
-    systemLogger(LogLevels.INFO, 'MongoDB: Database connection closed on app termination.');
-});
-
-process.on("SIGTERM", async () => {
-    await mongoose.connection.close();
-
-    systemLogger(LogLevels.INFO, 'MongoDB: Database connection closed on app termination.');
-});
-
 export {
     connectToDatabase,
     getDatabaseConnection,
+    closeDatabaseConnection,
     checkDatabaseConnectionStatus
 };
 

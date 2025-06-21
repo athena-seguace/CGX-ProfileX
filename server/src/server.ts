@@ -1,3 +1,4 @@
+import { Server } from "http";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -26,30 +27,14 @@ app.use("/", centralRouter);
 app.use(errorHandlerMiddleware);
 
 
+let server: Server | null = null;
+
 const startServer = async (): Promise<void> => {
     const PORT = Number(getEnvVariable("SERVER_PORT", false) || "5500");
 
     try {
-        const server = app.listen(PORT, () => {
+        server = app.listen(PORT, () => {
             systemLogger(LogLevels.INFO, `Server running on http://localhost:${PORT}.`);
-        });
-
-        process.on("SIGTERM", () => {
-            systemLogger(LogLevels.INFO, 'Server: Received SIGINT. Terminating Server Forcefully.');
-            server.close(() => {
-                systemLogger(LogLevels.INFO, 'Server: Server terminated successfully.');
-
-                process.exit(0);
-            });
-        });
-
-        process.on("SIGTERM", () => {
-            systemLogger(LogLevels.INFO, 'Server: Received SIGTERM. Terminating Server Gracefully.');
-            server.close(() => {
-                systemLogger(LogLevels.INFO, 'Server: Server terminated successfully.');
-
-                process.exit(0);
-            });
         });
     } catch (error) {
         systemLogger(LogLevels.FATAL, "FATAL ERROR: Failed to start server.");
@@ -60,17 +45,21 @@ const startServer = async (): Promise<void> => {
     }
 };
 
-process.on("unhandledRejection", (reason) => {
-    systemLogger(LogLevels.FATAL, "Unhandled Rejection", {
-        reason,
-    });
-});
+const shutDownServer = async (): Promise<void> => {
+    try {
+        if (server) {
+            server.close(() => {
+                systemLogger(LogLevels.INFO, 'Server terminated successfully.');
+            });
+        }
+        else {
+            systemLogger(LogLevels.WARN, 'Server is no server, cannot shutdown an a not server.');
+        }
+    }
+    catch (error) {
+        systemLogger(LogLevels.ERROR, "Error while trying to shutdown server.", { error });
+    }
+}
 
-process.on("uncaughtException", (error) => {
-    systemLogger(LogLevels.FATAL, "Unhandled Exception", {
-        error,
-    });
-});
-
-export { startServer };
+export { startServer, shutDownServer };
 
