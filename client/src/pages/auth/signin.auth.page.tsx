@@ -4,7 +4,7 @@ import SignInAuthComponent from "../../components/core/auth/SignIn.auth.componen
 const SignInAuthPage = () => {
     return (
         <DefaultPageLayout>
-            <div className="w-full h-full flex items-center justify-center p-5">
+            <div className="w-full min-h-[calc(100%-2.5rem)] flex items-center justify-center p-5">
                 <SignInAuthComponent />
             </div>
         </DefaultPageLayout>

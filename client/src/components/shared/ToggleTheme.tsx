@@ -6,7 +6,7 @@ const ToggleThemeComponent = () => {
 
     return (
         <>
-            <div className="fixed top-5 right-5 flex items-center gap-1.5">
+            <div className="p-2 flex items-center gap-1.5">
                 <p className="text-t-secondary text-sm">
                     {theme.charAt(0).toUpperCase() + theme.slice(1) + " Mode"}
                 </p>

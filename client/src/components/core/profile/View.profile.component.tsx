@@ -14,8 +14,8 @@ const ViewProfileComponent = () => {
 
     return (
         <>
-            <div className="w-full max-w-150 border rounded-lg border-separator shadow-card">
-                <div className="relative bg-surface flex flex-col items-center gap-8 rounded-lg border-b border-separator p-10 pt-20">
+            <div className="w-full max-w-150 border rounded-lg border-separator shadow-card mt-13">
+                <div className="relative bg-surface flex flex-col items-center gap-8 rounded-lg border-b border-separator p-5 sm:p-10 pt-20 sm:pt-20">
                     {isLoading ? (
                         <>
                             <LoadingComponent msg="Loading Profile..." />
@@ -68,7 +68,7 @@ const ViewProfileComponent = () => {
                         </>
                     )}
                 </div>
-                <div className="flex h-12 items-center justify-between px-4">
+                <div className="flex h-12 items-center justify-between px-2 sm:px-4">
                     <p className="text-xs text-t-secondary">{user?.id}</p>
                     <button
                         name="sign-out"

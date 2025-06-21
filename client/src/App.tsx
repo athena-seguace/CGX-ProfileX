@@ -8,7 +8,6 @@ import ProfilePage from "./pages/profile/profile.page";
 import EditBioPage from "./pages/profile/editBio.page";
 import NotFoundPage from "./pages/notFound.page";
 import LoadingPage from "./pages/loading.page";
-import ToggleThemeComponent from "./components/shared/ToggleTheme";
 
 const App = () => {
     return (
@@ -45,7 +44,6 @@ const App = () => {
                 </BrowserRouter>
             </AuthProvider>
             <Toaster />
-            <ToggleThemeComponent />
         </>
     );
 };

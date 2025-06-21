@@ -9,7 +9,7 @@ const EditBioProfileComponent = () => {
 
     return (
         <>
-            <div className="w-full max-w-100 border rounded-lg border-separator shadow-card">
+            <div className="w-full max-w-150 border rounded-lg border-separator shadow-card">
                 <div className="bg-surface p-5 sm:p-10 flex flex-col gap-6 border-b rounded-lg border-separator">
                     <div className="flex flex-col items-center">
                         <h2 className="text-t-primary text-lg font-semibold">

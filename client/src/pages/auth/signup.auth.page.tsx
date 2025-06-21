@@ -4,7 +4,7 @@ import SignUpAuthComponent from "../../components/core/auth/SignUp.auth.componen
 const SignUpAuthPage = () => {
     return (
         <DefaultPageLayout>
-            <div className="w-full h-full flex items-center justify-center p-5">
+            <div className="w-full min-h-[calc(100%-2.5rem)] flex items-center justify-center p-5">
                 <SignUpAuthComponent />
             </div>
         </DefaultPageLayout>

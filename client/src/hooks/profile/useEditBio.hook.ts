@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import userApis from "../../apis/user.apis";
 import toastActions from "../../utils/toast.utils";
 import { APIsSCsEnum } from "../../types/apis.types";
@@ -19,7 +19,7 @@ const useEditBio = () => {
         form: null,
     });
 
-    const { refreshUser } = useAuth();
+    const { user, refreshUser } = useAuth();
     const navigate = useNavigate();
 
     const isBioEmpty = () => {
@@ -71,6 +71,12 @@ const useEditBio = () => {
             navigate("/profile");
         }
     }
+
+    useEffect(() => {
+        if (user) {
+            setBio(() => user.bio);
+        }
+    }, []);
 
     return {
         bio,

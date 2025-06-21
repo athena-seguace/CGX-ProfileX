@@ -4,7 +4,7 @@ import EditBioProfileComponent from "../../components/core/profile/EditBio.profi
 const EditBioPage = () => {
     return (
         <DefaultPageLayout>
-            <div className="w-full h-full flex items-center justify-center p-5">
+            <div className="w-full min-h-[calc(100%-2.5rem)] flex items-center justify-center p-5">
                 <EditBioProfileComponent />
             </div>
         </DefaultPageLayout>
