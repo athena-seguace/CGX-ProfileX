@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "target": "ESNext",
+        "module": "CommonJS",
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "baseUrl": "./src"
+    },
+    "include": ["./src/**/*.ts", "../_mono_delete_/src/routes/user.route.ts"],
+    "exclude": ["node_modules", "./dist/*"]
+}

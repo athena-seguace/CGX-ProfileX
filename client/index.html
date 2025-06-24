@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+        <!-- TODO: Add a rel icon -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Profile X</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script>
+            (function () {
+                const theme = localStorage.getItem("theme");
+                if (theme === "dark") {
+                    document.documentElement.classList.add("dark");
+                } else {
+                    document.documentElement.classList.add("light");
+                }
+            })();
+        </script>
+        <script type="module" src="/src/index.tsx"></script>
+    </body>
+</html>
