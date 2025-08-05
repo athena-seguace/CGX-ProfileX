@@ -3,6 +3,8 @@
 
 # CGX-ProfileX
 
+⚠️ **Note: This project is no longer live. It was built as part of the CGS (IIT KGP) 2025 Sophomore Selection under the WebX Track, and the deployment on Render has been turned off as of August 2025.**
+
 A full-stack web application built with **React (Vite)**, **Node.js (Express)**, and **MongoDB Atlas**, developed for the **CGS (IIT KGP) 2025 Sophomore Selection Task** under the **WebX Track**.
 
 Author: **Neelabh Priyam Jha**
@@ -23,15 +25,15 @@ CGX-ProfileX is a full-stack profile dashboard app that allows users to create a
 
 ## Live Demo
 
-You can try the live version of CGX-ProfileX [here](https://cgx-profilex.onrender.com):
+~~You can try the live version of CGX-ProfileX [here](https://cgx-profilex.onrender.com):~~
 
--   **Client:** [https://cgx-profilex.onrender.com](https://cgx-profilex.onrender.com)
--   **Server:** [https://cgx-profilex-server.onrender.com](https://cgx-profilex-server.onrender.com)
+-   **Client:** ~~[https://cgx-profilex.onrender.com](https://cgx-profilex.onrender.com)~~
+-   **Server:** ~~[https://cgx-profilex-server.onrender.com](https://cgx-profilex-server.onrender.com)~~
 
 > ⚠️ The client relies entirely on the server for authentication and data.
 > For full functionality (login, profile access), both services must be online and connected.
 
-To understand how the project is deployed, refer to the detailed [DEPLOYMENT.md](./DEPLOYMENT.md) file.
+~~To understand how the project is deployed, refer to the detailed [DEPLOYMENT.md](./DEPLOYMENT.md) file.~~
 
 ## UI Preview
 
