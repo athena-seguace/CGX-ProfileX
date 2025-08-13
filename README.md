@@ -3,8 +3,6 @@
 
 # CGX-ProfileX
 
-⚠️ **Note: This project is no longer live. It was built as part of the CGS (IIT KGP) 2025 Sophomore Selection under the WebX Track, and the deployment on Render has been turned off as of August 2025.**
-
 A full-stack web application built with **React (Vite)**, **Node.js (Express)**, and **MongoDB Atlas**, developed for the **CGS (IIT KGP) 2025 Sophomore Selection Task** under the **WebX Track**.
 
 Author: **Neelabh Priyam Jha**
@@ -22,18 +20,6 @@ CGX-ProfileX is a full-stack profile dashboard app that allows users to create a
 -   **Deployment:** Render.com
 -   **Containerization:** Docker, Docker Compose
 -   **Language:** TypeScript
-
-## Live Demo
-
-~~You can try the live version of CGX-ProfileX [here](https://cgx-profilex.onrender.com):~~
-
--   **Client:** ~~[https://cgx-profilex.onrender.com](https://cgx-profilex.onrender.com)~~
--   **Server:** ~~[https://cgx-profilex-server.onrender.com](https://cgx-profilex-server.onrender.com)~~
-
-> ⚠️ The client relies entirely on the server for authentication and data.
-> For full functionality (login, profile access), both services must be online and connected.
-
-~~To understand how the project is deployed, refer to the detailed [DEPLOYMENT.md](./DEPLOYMENT.md) file.~~
 
 ## UI Preview
 
@@ -77,15 +63,6 @@ Here are a few screenshots from the live app:
     -   RESTful API with secure endpoints.
     -   MongoDB Atlas for cloud-hosted database operations.
 
--   **Dockerized Local Development**
-
-    -   Fully containerized setup with Docker and Docker Compose.
-    -   Nginx used locally to serve Client and reverse-proxy API requests.
-
--   **Production Deployment**
-    -   Deployed to Render: client as static site, server as web service.
-    -   Secure communication between Client and Server over HTTPS.
-
 ## Project Structure
 
 This project follows a standard full-stack monorepo layout:
@@ -94,8 +71,6 @@ This project follows a standard full-stack monorepo layout:
 CGX-ProfileX/
 ├── client/             # React Client (Vite)
 ├── server/             # Express Server (Node.js)
-├── docker/             # Dockerfiles and Nginx config
-├── docker-compose.yml
 ├── ...
 ```
 
@@ -105,6 +80,7 @@ CGX-ProfileX/
 -   The Express server exposes REST APIs and connects to MongoDB database for persistent data storage..
 -   Authentication uses secure HTTP-only cookies.
 -   Client and server are deployed separately and communicate over HTTPS.
+-   CORS is handled on the backend and configured using the `.env` file inside the `server/` directory.
 
 ## Installation & Local Development
 
@@ -176,22 +152,9 @@ npm run dev
 
 The client can be accessed on [http://localhost:5173](http://localhost:5173).
 
-## Docker Setup (Optional)
+## Deployment
 
-You can run the entire project using Docker and Docker Compose:
-
-Build and Start Containers
-
-```bash
-docker-compose up --build
-```
-
-This will:
-
--   Build and serve the client via Nginx on [http://localhost:5173](http://localhost:5173)
--   Start the Express server on [http://localhost:5500](http://localhost:5500)
-
----
+Docker-based deployment has been removed. However, the app can still be deployed on platforms like Render.com, or you can deploy it locally. Docker-based containerization will be reintroduced soon.
 
 ## Acknowledgements
 
