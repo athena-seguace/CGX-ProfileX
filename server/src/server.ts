@@ -1,6 +1,5 @@
 import { Server } from "http";
 import express from "express";
-import cors from "cors";
 import cookieParser from "cookie-parser";
 import authenticationMiddleware from "./middlewares/auth.middleware";
 import errorHandlerMiddleware from "./middlewares/errorHandler.middleware";
@@ -12,12 +11,6 @@ import getEnvVariable from "./utils/getEnvVariable";
 const app = express();
 
 app.disable('x-powered-by');
-
-const URL_WHITELIST = [getEnvVariable("CLIENT_URL", true)];
-app.use(cors({
-    origin: URL_WHITELIST,
-    credentials: true,
-}));
 
 app.use(cookieParser());
 app.use(express.json());

@@ -24,7 +24,11 @@ const getEnvVariable: GetEnvVariable = (envVarName, fatalIfNotFound): any => {
 
 
 (() => {
-    dotenv.config({ path: "./.env" });
+    if (process.env.ENV === "dev" ||
+        process.env.NODEJS_SERVER_ENV === "dev"
+    ) {
+        dotenv.config({ path: "./.env" });
+    }
 })();
 
 
