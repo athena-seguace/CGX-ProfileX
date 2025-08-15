@@ -49,11 +49,8 @@ services:
             context: .
             dockerfile: docker/reverse-proxy.Dockerfile
             args:
-                REVERSE_PROXY_ENV: production
+                REVERSE_PROXY_ENV: dev
         restart: always
-        volumes:
-            - /home/ubuntu/domain/certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
-            - /home/ubuntu/domain/certs/privkey.pem:/etc/ssl/certs/privkey.pem:ro
         ports:
             - "80:80"
             - "443:443"

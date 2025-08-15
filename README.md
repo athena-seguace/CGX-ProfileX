@@ -68,6 +68,12 @@ Here are a few screenshots from the live app:
     -   Easily run the entire stack (client, server, database, reverse proxy) with a single command.
     -   Environment-configurable setup using a shared `.env` file.
 
+-   **HTTPS Support (Production Only)**
+
+    -   Added HTTPS support in production using **certbot** and **Let's Encrypt**.
+    -   Automatically redirects all HTTP traffic to HTTPS.
+    -   HTTPS is disabled in development mode for simplicity.
+
 ## Project Structure
 
 This project follows a standard full-stack monorepo layout:
@@ -191,7 +197,7 @@ vim .env
 ```
 
 ```env
-# service: cgx-profilex-mongoDB
+# service: cgx-profilex-mongodb
 MONGO_INITDB_ROOT_USERNAME = "root"
 MONGO_INITDB_ROOT_PASSWORD = "<password>"
 
@@ -225,6 +231,13 @@ To start all services:
 
 ```bash
 docker compose up -d
+```
+
+**Note:** If you want to build and run container in development, then use `docker-compose.dev.yaml` file.
+
+```bash
+docker compose -f docker-compose.dev.yaml build
+docker compose -f docker-compose.dev.yaml up -d
 ```
 
 This will:
