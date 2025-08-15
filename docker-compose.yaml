@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+    cgx-profilex-mongodb:
+        image: cgx-profilex-mongodb
+        container_name: cgx-profilex-mongodb
+        build:
+            context: .
+            dockerfile: docker/mongodb.Dockerfile
+        restart: always
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+            - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+        volumes:
+            - mongodb-data:/data/db
+        networks:
+            - private_mongodb
+    cgx-profilex-server:
+        image: cgx-profilex-server
+        container_name: cgx-profilex-server
+        build:
+            context: .
+            dockerfile: docker/server.Dockerfile
+        restart: always
+        environment:
+            - NODEJS_SERVER_ENV=${NODEJS_SERVER_ENV}
+            - NODEJS_SERVER_MONGODB_URI=${NODEJS_SERVER_MONGODB_URI}
+            - NODEJS_SERVER_MONGODB_POOL_SIZE=${NODEJS_SERVER_MONGODB_POOL_SIZE}
+            - NODEJS_SERVER_SERVER_PORT=${NODEJS_SERVER_SERVER_PORT}
+            - NODEJS_SERVER_JWT_SECRET_KEY=${NODEJS_SERVER_JWT_SECRET_KEY}
+        networks:
+            - private_server
+            - private_mongodb
+    cgx-profilex-client:
+        image: cgx-profilex-client
+        container_name: cgx-profilex-client
+        build:
+            context: .
+            dockerfile: docker/client.Dockerfile
+            args:
+                VITE_SERVER_API_BASE_URL: ${VITE_SERVER_API_BASE_URL}
+        restart: always
+        networks:
+            - private_client
+    cgx-profilex-reverse-proxy:
+        image: cgx-profilex-reverse-proxy
+        container_name: cgx-profilex-reverse-proxy
+        build:
+            context: .
+            dockerfile: docker/reverse-proxy.Dockerfile
+        restart: always
+        ports:
+            - "80:80"
+        networks:
+            - private_client
+            - private_server
+
+networks:
+    private_client:
+    private_server:
+    private_mongodb:
+
+volumes:
+    mongodb-data:

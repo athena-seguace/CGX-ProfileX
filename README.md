@@ -61,7 +61,12 @@ Here are a few screenshots from the live app:
 -   **Server (Express + MongoDB)**
 
     -   RESTful API with secure endpoints.
-    -   MongoDB Atlas for cloud-hosted database operations.
+
+-   **Docker Support**
+
+    -   Full containerized setup using Docker and Docker Compose.
+    -   Easily run the entire stack (client, server, database, reverse proxy) with a single command.
+    -   Environment-configurable setup using a shared `.env` file.
 
 ## Project Structure
 
@@ -71,6 +76,7 @@ This project follows a standard full-stack monorepo layout:
 CGX-ProfileX/
 ├── client/             # React Client (Vite)
 ├── server/             # Express Server (Node.js)
+├── docker/             # Docker Setup
 ├── ...
 ```
 
@@ -80,7 +86,7 @@ CGX-ProfileX/
 -   The Express server exposes REST APIs and connects to MongoDB database for persistent data storage..
 -   Authentication uses secure HTTP-only cookies.
 -   Client and server are deployed separately and communicate over HTTPS.
--   CORS is handled on the backend and configured using the `.env` file inside the `server/` directory.
+-   Docker-based containerization and deployment.
 
 ## Installation & Local Development
 
@@ -154,7 +160,89 @@ The client can be accessed on [http://localhost:5173](http://localhost:5173).
 
 ## Deployment
 
-Docker-based deployment has been removed. However, the app can still be deployed on platforms like Render.com, or you can deploy it locally. Docker-based containerization will be reintroduced soon.
+Docker-based containerization has been added to **standardize** development and deployment.
+
+This project includes a full Docker setup using _Docker Compose_, which runs:
+
+-   A MongoDB container
+-   A Node.js server container
+-   A React client container
+-   An Nginx reverse proxy container
+
+### 1. Prerequisites
+
+-   [Docker](https://docs.docker.com/get-docker/)
+-   Docker Compose (included with Docker Desktop or as the `docker compose` CLI plugin)
+
+### 2. Clone the Repository
+
+```bash
+git clone https://github.com/athena-seguace/CGX-ProfileX
+cd CGX-ProfileX
+```
+
+### 3. Create a `.env` file in the root directory
+
+Create and configure a `.env` file at the root level based on the provided `.env.sample`:
+
+```bash
+cp .env.sample .env
+vim .env
+```
+
+```env
+# service: cgx-profilex-mongoDB
+MONGO_INITDB_ROOT_USERNAME = "root"
+MONGO_INITDB_ROOT_PASSWORD = "<password>"
+
+
+# service: cgx-profilex-server
+NODEJS_SERVER_ENV = "production"
+
+NODEJS_SERVER_MONGODB_URI = "mongodb://root:<password>@cgx-profilex-mongodb:27017/CGX-ProfileX?authSource=admin"
+NODEJS_SERVER_MONGODB_POOL_SIZE = "value"
+
+NODEJS_SERVER_SERVER_PORT = "5500"
+
+NODEJS_SERVER_JWT_SECRET_KEY = "value"
+
+
+# service: cgx-profilex-client
+VITE_SERVER_API_BASE_URL = "Your domain name or ip address."
+```
+
+**Note:** This `.env` file is required for Docker to run properly. Make sure all values are correctly filled out.
+
+### 4. Build and Run Containers
+
+To build all Docker images:
+
+```bash
+docker compose build
+```
+
+To start all services:
+
+```bash
+docker compose up -d
+```
+
+This will:
+
+-   Build and initialize all services.
+-   Run containers in detached mode.
+
+After a few moments, you can access the app.
+
+> Note: The database service might take some time to initialize, during which the server won't be available to connect to the database. As a result, the frontend may display a `503 Service Unavailable` error temporarily.
+
+### 5. Stopping the containers
+
+To stop and remove all containers:
+
+```bash
+docker compose down
+```
 
 ## Acknowledgements
 
