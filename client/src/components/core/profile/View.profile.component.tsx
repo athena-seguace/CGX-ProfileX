@@ -69,7 +69,7 @@ const ViewProfileComponent = () => {
                     )}
                 </div>
                 <div className="flex h-12 items-center justify-between px-2 sm:px-4">
-                    <p className="text-xs text-t-secondary">{user?.id}</p>
+                    <p className="text-xs text-t-secondary">ID: {user?.id}</p>
                     <button
                         name="sign-out"
                         className="h-8 w-16 text-xs bg-primary rounded-md text-t-onAccent hover:bg-primaryS hover:cursor-pointer"
