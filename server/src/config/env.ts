@@ -10,6 +10,11 @@ import systemLogger, { LogLevels } from "../utils/logger";
     getEnvVariable("MONGODB_POOL_SIZE", true);
     getEnvVariable("SERVER_PORT", true);
     getEnvVariable("JWT_SECRET_KEY", true);
+    getEnvVariable("SMTP_HOST", true);
+    getEnvVariable("SMTP_PORT", true);
+    getEnvVariable("SMTP_FROM", true);
+    getEnvVariable("SMTP_USERNAME", true);
+    getEnvVariable("SMTP_PASSWORD", true);
 
     systemLogger(LogLevels.INFO, "Found all required environment variables.");
 })();

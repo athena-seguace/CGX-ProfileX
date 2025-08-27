@@ -146,10 +146,12 @@ const ServiceErrorCodeHandler = <T extends object>(
 ): void => {
     switch (errorCode) {
         case SECsEnum.USER_NOT_FOUND:
+        case SECsEnum.SIGNUP_REQUEST_NOT_FOUND:
             return responseHandler.sendFailed(FailedResponseCodeEnum.NOT_FOUND, errorMessage);
 
         case SECsEnum.INVALID_CREDENTIALS:
         case SECsEnum.INVALID_JWT:
+        case SECsEnum.INVALID_OTP:
             return responseHandler.sendFailed(FailedResponseCodeEnum.UNAUTHORIZED, errorMessage);
 
         case SECsEnum.EMAIL_TAKEN:
@@ -158,6 +160,8 @@ const ServiceErrorCodeHandler = <T extends object>(
         case SECsEnum.FORBIDDEN:
             return responseHandler.sendFailed(FailedResponseCodeEnum.FORBIDDEN, errorMessage);
 
+        case SECsEnum.TOO_MANY_REQUESTS:
+            return responseHandler.sendFailed(FailedResponseCodeEnum.TOO_MANY_REQUESTS, errorMessage);
 
         default:
             throw new SystemError("Unexpected error code returned by service.", { errorCode });

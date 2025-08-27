@@ -3,9 +3,12 @@ import "./config/env";
 import { startServer, shutDownServer } from "./server";
 import { connectToDatabase, closeDatabaseConnection } from "./database/db";
 import systemLogger, { LogLevels } from "./utils/logger";
+import { verifySMTPConnection } from "./utils/sendEmail";
 
 (async () => {
     await connectToDatabase();
+
+    await verifySMTPConnection();
 
     await startServer();
 

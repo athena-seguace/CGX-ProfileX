@@ -1,11 +1,21 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useSignUp from "../../../hooks/auth/useSignUp.hook";
+import useSignUp, { SignUpState } from "../../../hooks/auth/useSignUp.hook";
 import { IoInformationCircleSharp, IoEyeOff, IoEye } from "react-icons/io5";
+import OTPInputComponent from "../../shared/OTPInput";
+import ResendOTPTimerComponent from "../../shared/ResendOTPTimer";
 
 const SignUpAuthComponent = () => {
-    const { fields, setField, errorMessages, handleSignUp, isPasswordWeak } =
-        useSignUp();
+    const {
+        fields,
+        setField,
+        signUpState,
+        errorMessages,
+        handleSignUpRequest,
+        handleSignUpOTPVerification,
+        handleSignUpResendOTP,
+        isPasswordWeak,
+    } = useSignUp();
 
     const [isPasswordNeverFocused, setIsPasswordNeverFocused] =
         useState<boolean>(true);
@@ -30,102 +40,171 @@ const SignUpAuthComponent = () => {
                             Welcome! Please fill in the details to get started.
                         </p>
                     </div>
-                    <form
-                        className="flex flex-col gap-4"
-                        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-                            setIsPasswordNeverFocused(() => true);
-                            handleSignUp(e);
-                        }}
-                    >
-                        {errorMessages.form ? (
-                            <div className="flex justify-center items-center gap-0.5 text-xs text-accent-red">
-                                <IoInformationCircleSharp />
-                                <span>{errorMessages.form}</span>
-                            </div>
-                        ) : null}
-
-                        <div className="flex flex-col gap-0.5">
-                            <p className="text-t-primary text-sm">Name</p>
-                            <input
-                                name="name"
-                                type="text"
-                                autoComplete="name"
-                                className="h-9 w-full tracking-wide text-sm border rounded-md border-separator text-t-primary px-4 focus:outline-none focus:border-primaryS"
-                                placeholder="Enter your name."
-                                value={fields.name}
-                                onChange={(e) => setField.name(e.target.value)}
-                                required
-                            />
-                        </div>
-
-                        <div className="flex flex-col gap-0.5">
-                            <p className="text-t-primary text-sm">email</p>
-                            <input
-                                name="email"
-                                type="text"
-                                autoComplete="email"
-                                className="h-9 w-full tracking-wide text-sm border rounded-md border-separator text-t-primary px-4 focus:outline-none focus:border-primaryS"
-                                placeholder="Choose a email."
-                                value={fields.email}
-                                onChange={(e) => setField.email(e.target.value)}
-                                required
-                            />
-
-                            {errorMessages.email ? (
-                                <div className="flex items-center gap-0.5 text-xs text-accent-red">
+                    {signUpState === SignUpState.SIGNUP_REQUEST ? (
+                        <form
+                            className="flex flex-col gap-4"
+                            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+                                setIsPasswordNeverFocused(() => true);
+                                handleSignUpRequest(e);
+                            }}
+                        >
+                            {errorMessages.form ? (
+                                <div className="flex justify-center items-center gap-0.5 text-xs text-accent-red">
                                     <IoInformationCircleSharp />
-                                    <span>{errorMessages.email}</span>
+                                    <span>{errorMessages.form}</span>
                                 </div>
                             ) : null}
-                        </div>
 
-                        <div className="flex flex-col gap-0.5">
-                            <p className="text-t-primary text-sm">Password</p>
-                            <div className="relative">
+                            <div className="flex flex-col gap-0.5">
+                                <p className="text-t-primary text-sm">Name</p>
                                 <input
-                                    name="password"
-                                    type={showPassword ? "text" : "password"}
-                                    autoComplete="password"
+                                    name="name"
+                                    type="text"
+                                    autoComplete="name"
                                     className="h-9 w-full tracking-wide text-sm border rounded-md border-separator text-t-primary px-4 focus:outline-none focus:border-primaryS"
-                                    placeholder="Enter your password."
-                                    value={fields.password}
+                                    placeholder="Enter your name."
+                                    value={fields.name}
                                     onChange={(e) =>
-                                        setField.password(e.target.value)
-                                    }
-                                    onFocus={() =>
-                                        setIsPasswordNeverFocused(() => false)
+                                        setField.name(e.target.value)
                                     }
                                     required
                                 />
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        setShowPassword((prev) => !prev)
+                            </div>
+
+                            <div className="flex flex-col gap-0.5">
+                                <p className="text-t-primary text-sm">Email</p>
+                                <input
+                                    name="email"
+                                    type="text"
+                                    autoComplete="email"
+                                    className="h-9 w-full tracking-wide text-sm border rounded-md border-separator text-t-primary px-4 focus:outline-none focus:border-primaryS"
+                                    placeholder="Choose a email."
+                                    value={fields.email}
+                                    onChange={(e) =>
+                                        setField.email(e.target.value)
                                     }
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-t-secondary"
+                                    required
+                                />
+
+                                {errorMessages.email ? (
+                                    <div className="flex items-center gap-0.5 text-xs text-accent-red">
+                                        <IoInformationCircleSharp />
+                                        <span>{errorMessages.email}</span>
+                                    </div>
+                                ) : null}
+                            </div>
+
+                            <div className="flex flex-col gap-0.5">
+                                <p className="text-t-primary text-sm">
+                                    Password
+                                </p>
+                                <div className="relative">
+                                    <input
+                                        name="password"
+                                        type={
+                                            showPassword ? "text" : "password"
+                                        }
+                                        autoComplete="password"
+                                        className="h-9 w-full tracking-wide text-sm border rounded-md border-separator text-t-primary px-4 focus:outline-none focus:border-primaryS"
+                                        placeholder="Enter your password."
+                                        value={fields.password}
+                                        onChange={(e) =>
+                                            setField.password(e.target.value)
+                                        }
+                                        onFocus={() =>
+                                            setIsPasswordNeverFocused(
+                                                () => false
+                                            )
+                                        }
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setShowPassword((prev) => !prev)
+                                        }
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-t-secondary"
+                                    >
+                                        {showPassword ? (
+                                            <IoEyeOff />
+                                        ) : (
+                                            <IoEye />
+                                        )}
+                                    </button>
+                                </div>
+                                {isPasswordWeak && !isPasswordNeverFocused ? (
+                                    <div className="flex items-center gap-0.5 text-xs text-accent-red">
+                                        <IoInformationCircleSharp />
+                                        Weak Password
+                                    </div>
+                                ) : null}
+                            </div>
+
+                            <div className="flex flex-col gap-1">
+                                <p>&nbsp;</p>
+                                <button
+                                    name="sign-in"
+                                    type="submit"
+                                    className="h-9 bg-primary rounded-md font-medium text-t-onAccent hover:bg-primaryS hover:cursor-pointer"
                                 >
-                                    {showPassword ? <IoEyeOff /> : <IoEye />}
+                                    Sign Up
                                 </button>
                             </div>
-                            {isPasswordWeak && !isPasswordNeverFocused ? (
-                                <div className="flex items-center gap-0.5 text-xs text-accent-red">
+                        </form>
+                    ) : (
+                        <form
+                            className="flex flex-col gap-4"
+                            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+                                handleSignUpOTPVerification(e);
+                            }}
+                        >
+                            {errorMessages.form ? (
+                                <div className="flex justify-center items-center gap-0.5 text-xs text-accent-red">
                                     <IoInformationCircleSharp />
-                                    Weak Password
+                                    <span>{errorMessages.form}</span>
                                 </div>
                             ) : null}
-                        </div>
 
-                        <div className="flex flex-col gap-1">
-                            <p>&nbsp;</p>
-                            <button
-                                name="sign-in"
-                                type="submit"
-                                className="h-9 bg-primary rounded-md font-medium text-t-onAccent hover:bg-primaryS hover:cursor-pointer"
-                            >
-                                Sign Up
-                            </button>
-                        </div>
-                    </form>
+                            <div className="flex flex-col gap-0.5">
+                                <p className="text-t-primary text-sm">OTP</p>
+                                <OTPInputComponent
+                                    length={6}
+                                    onComplete={setField.otp}
+                                />
+                                <p className="text-t-secondary text-xs">
+                                    An OTP has been sent to{" "}
+                                    <span className="text-primaryS">
+                                        {fields.email}
+                                    </span>
+                                </p>
+
+                                {errorMessages.otp ? (
+                                    <div className="flex items-center gap-0.5 text-xs text-accent-red">
+                                        <IoInformationCircleSharp />
+                                        <span>{errorMessages.otp}</span>
+                                    </div>
+                                ) : null}
+                            </div>
+
+                            <div>
+                                <ResendOTPTimerComponent
+                                    initialTime={60}
+                                    onResend={handleSignUpResendOTP}
+                                />
+                            </div>
+
+                            <div className="flex flex-col gap-1">
+                                <p>&nbsp;</p>
+                                <button
+                                    name="verify-otp"
+                                    type="submit"
+                                    className="h-9 bg-primary rounded-md font-medium text-t-onAccent hover:bg-primaryS hover:cursor-pointer"
+                                >
+                                    Verify OTP
+                                </button>
+                            </div>
+                        </form>
+                    )}
                 </div>
                 <div className="h-12 flex flex-col items-center justify-evenly">
                     <div className="flex gap-2 text-sm">

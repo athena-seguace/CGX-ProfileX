@@ -1,4 +1,5 @@
 import userRepository from "../database/repos/user.repo";
+import signUpRequestRepository from "../database/repos/signUpRequest.repo";
 import coreServices from "./core/core.service";
 import {
     ServiceSignature,
@@ -8,6 +9,7 @@ import {
 import { SDIn, SDOut } from "../interfaces/index.interface";
 import dataPolicyRules from "../config/dataPolicy";
 import SystemError from "../utils/systemError";
+import { sendOTPEmail } from "./core/email.service";
 
 
 class AuthService {
@@ -55,7 +57,7 @@ class AuthService {
             };
         }
 
-        const validCredentials = await coreServices.verifyPassword(data.password, user.passwordHash);
+        const validCredentials = await coreServices.verifyHash(data.password, user.passwordHash);
         if (!validCredentials) {
             return {
                 success: false,
@@ -90,10 +92,10 @@ class AuthService {
         }
     }
 
-    register: ServiceSignature<
-        SDIn.Auth.Register,
-        SDOut.Auth.Register,
-        SECs.Auth.Register
+    signUpRequest: ServiceSignature<
+        SDIn.Auth.SignUpRequest,
+        SDOut.Auth.SignUpRequest,
+        SECs.Auth.SignUpRequest
     > = async (data) => {
         let prevUser = await userRepository.findByEmail(data.email);
         if (prevUser) {
@@ -104,14 +106,117 @@ class AuthService {
             }
         }
 
-        let passwordHash = await coreServices.hashPassword(data.password);
+        let otp = coreServices.generateOTP();
 
-        await userRepository.insert({
+        let passwordHash = await coreServices.hashString(data.password);
+        let otpHash = await coreServices.hashString(otp);
+
+        let signUpRequestDoc = {
             name: data.name,
             email: data.email,
             passwordHash,
-            bio: "",
+            otpHash,
+            expiresAt: new Date(
+                Date.now() +
+                dataPolicyRules.security.otp.expiresInSecs * 1000
+            )
+        };
+
+        let prevAttempt = await signUpRequestRepository.findByEmail(data.email);
+        if (prevAttempt) {
+            await signUpRequestRepository.updateById(
+                prevAttempt._id,
+                signUpRequestDoc
+            );
+        }
+        else {
+            await signUpRequestRepository.insert(signUpRequestDoc);
+        }
+
+        sendOTPEmail(data.email, otp);
+
+        return {
+            success: true,
+            data: {}
+        }
+    }
+
+    resendOTP: ServiceSignature<
+        SDIn.Auth.ResendOTP,
+        SDOut.Auth.ResendOTP,
+        SECs.Auth.ResendOTP
+    > = async (data) => {
+        let prevRequest = await signUpRequestRepository.findByEmail(data.email);
+        if (!prevRequest) {
+            return {
+                success: false,
+                errorCode: SECsEnum.SIGNUP_REQUEST_NOT_FOUND,
+                errorMessage: "No signup request found."
+            }
+        }
+
+        let resendBlockedTill =
+            prevRequest.updatedAt.getTime() +
+            dataPolicyRules.security.otp.blockResendForSecs * 1000;
+
+        if (Date.now() < resendBlockedTill) {
+            return {
+                success: false,
+                errorCode: SECsEnum.TOO_MANY_REQUESTS,
+                errorMessage: "Cannot resend otp too quickly."
+            }
+        }
+
+        let otp = coreServices.generateOTP();
+        let otpHash = await coreServices.hashString(otp);
+
+        sendOTPEmail(data.email, otp);
+
+        await signUpRequestRepository.updateById(prevRequest._id, {
+            otpHash,
+            expiresAt: new Date(
+                Date.now() +
+                dataPolicyRules.security.otp.expiresInSecs * 1000
+            )
         });
+
+        return {
+            success: true,
+            data: {}
+        }
+    }
+
+    register: ServiceSignature<
+        SDIn.Auth.Register,
+        SDOut.Auth.Register,
+        SECs.Auth.Register
+    > = async (data) => {
+        let prevRequest = await signUpRequestRepository.findByEmail(data.email);
+        if (!prevRequest) {
+            return {
+                success: false,
+                errorCode: SECsEnum.SIGNUP_REQUEST_NOT_FOUND,
+                errorMessage: "No signup request found."
+            }
+        }
+
+        let validOTP = await coreServices.verifyHash(data.otp, prevRequest.otpHash);
+        if (!validOTP) {
+            return {
+                success: false,
+                errorCode: SECsEnum.INVALID_OTP,
+                errorMessage: "Invalid OTP. Please try again."
+            }
+        }
+
+        await userRepository.insert({
+            name: prevRequest.name,
+            email: prevRequest.email,
+            passwordHash: prevRequest.passwordHash,
+            bio: ""
+        });
+
+        await signUpRequestRepository.removeById(prevRequest._id);
 
         return {
             success: true,
@@ -136,7 +241,7 @@ class AuthService {
             );
         }
 
-        const validCredentials = await coreServices.verifyPassword(data.password, user.passwordHash);
+        const validCredentials = await coreServices.verifyHash(data.password, user.passwordHash);
         if (!validCredentials) {
             return {
                 success: false,
@@ -145,7 +250,7 @@ class AuthService {
             }
         }
 
-        let passwordHash = await coreServices.hashPassword(data.newPassword);
+        let passwordHash = await coreServices.hashString(data.newPassword);
 
         await userRepository.updateById(session.userId, {
             passwordHash

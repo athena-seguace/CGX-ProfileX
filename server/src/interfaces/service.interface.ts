@@ -20,10 +20,19 @@ export namespace SDIn {
 
         export interface Logout extends _NoProps { };
 
-        export interface Register {
+        export interface SignUpRequest {
             name: string;
             email: string;
             password: string;
+        }
+
+        export interface ResendOTP {
+            email: string;
+        }
+
+        export interface Register {
+            email: string;
+            otp: string;
         }
 
         export interface ChangePassword {
@@ -68,6 +77,8 @@ export namespace SDOut {
             token: string;
         };
 
+        export interface SignUpRequest { }
+        export interface ResendOTP { }
         export interface Register { }
         export interface ChangePassword { }
 

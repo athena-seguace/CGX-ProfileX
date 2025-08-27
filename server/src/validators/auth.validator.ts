@@ -9,10 +9,17 @@ const authValidator = {
         password: fieldSchemaParticular.user.passwordAny,
     }),
     logout: generateValidator<IbDR.Auth.Logout, IbD.Auth.Logout>({}),
-    register: generateValidator<IbDR.Auth.Register, IbD.Auth.Register>({
+    signUpRequest: generateValidator<IbDR.Auth.SignUpRequest, IbD.Auth.SignUpRequest>({
         name: fieldSchemaParticular.user.name,
         email: fieldSchemaParticular.user.email,
         password: fieldSchemaParticular.user.passwordStrong,
+    }),
+    resendOTP: generateValidator<IbDR.Auth.ResendOTP, IbD.Auth.ResendOTP>({
+        email: fieldSchemaParticular.user.email,
+    }),
+    register: generateValidator<IbDR.Auth.Register, IbD.Auth.Register>({
+        email: fieldSchemaParticular.user.email,
+        otp: fieldSchemaParticular.security.otp,
     }),
     changePassword: generateValidator<IbDR.Auth.ChangePassword, IbD.Auth.ChangePassword>({
         password: fieldSchemaParticular.user.passwordAny,

@@ -22,6 +22,16 @@ authRouter.post(
     authController.logout
 );
 authRouter.post(
+    "/signup-request",
+    generateValidateMiddleware(authValidator.signUpRequest),
+    authController.signUpRequest
+);
+authRouter.post(
+    "/resend-verification-otp",
+    generateValidateMiddleware(authValidator.resendOTP),
+    authController.resendOTP
+);
+authRouter.post(
     "/register",
     generateValidateMiddleware(authValidator.register),
     authController.register

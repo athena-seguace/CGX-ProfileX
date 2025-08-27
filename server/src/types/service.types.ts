@@ -1,8 +1,12 @@
 export enum SECsEnum {
     USER_NOT_FOUND,
+    SIGNUP_REQUEST_NOT_FOUND,
 
     INVALID_CREDENTIALS,
     INVALID_JWT,
+    INVALID_OTP,
+
+    TOO_MANY_REQUESTS,
 
     EMAIL_TAKEN,
 
@@ -23,8 +27,16 @@ export namespace SECs {
 
         export type Logout = never;
 
-        export type Register =
+        export type SignUpRequest =
             | SECsEnum.EMAIL_TAKEN;
+
+        export type ResendOTP =
+            | SECsEnum.SIGNUP_REQUEST_NOT_FOUND
+            | SECsEnum.TOO_MANY_REQUESTS;
+
+        export type Register =
+            | SECsEnum.SIGNUP_REQUEST_NOT_FOUND
+            | SECsEnum.INVALID_OTP;
 
         export type ChangePassword =
             | SECsEnum.INVALID_CREDENTIALS;

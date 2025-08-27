@@ -113,6 +113,21 @@ const fieldSchemaParticular = {
                 dataPolicyRules.user.bio.maxLength
             ),
     },
+    security: {
+        otp: Joi.string()
+            .trim()
+            .length(dataPolicyRules.security.otp.length)
+            .custom(_checkRegex(dataPolicyRules.security.otp.regex))
+            .required()
+            .messages({
+                'string.base': `<otp> must be a string.`,
+                'string.empty': `<otp> cannot be empty.`,
+                'string.length': `<otp> must have exactly {#limit} character.`,
+                'string.invalidRegex': `<otp> must be proper format.`,
+                'any.required': `<otp> is required.`
+            }),
+
+    }
 };
 
 export default generateValidator;

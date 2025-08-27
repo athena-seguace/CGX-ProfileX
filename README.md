@@ -47,6 +47,7 @@ Here are a few screenshots from the live app:
 
     -   Register and log in using secure, cookie-based JWT authentication.
     -   Auth state persists across page reloads via HTTP-only cookies.
+    -   Email based profile verification.
 
 -   **Profile Management**
 
@@ -132,6 +133,12 @@ NODEJS_SERVER_CLIENT_URL = "http://localhost:5173"
 NODEJS_SERVER_SERVER_PORT = "5500"
 
 NODEJS_SERVER_JWT_SECRET_KEY = "REPLACE_WITH_YOUR_SECRET_KEY"
+
+NODEJS_SERVER_SMTP_HOST = "smtp.provider.com"
+NODEJS_SERVER_SMTP_PORT = "---"
+NODEJS_SERVER_SMTP_FROM = "'Support Team' <support@example.com>"
+NODEJS_SERVER_SMTP_USERNAME = "support@example.tech"
+NODEJS_SERVER_SMTP_PASSWORD = "password"
 ```
 
 Start the server:
@@ -212,6 +219,12 @@ NODEJS_SERVER_SERVER_PORT = "5500"
 
 NODEJS_SERVER_JWT_SECRET_KEY = "value"
 
+NODEJS_SERVER_SMTP_HOST = "smtp.provider.com"
+NODEJS_SERVER_SMTP_PORT = "---"
+NODEJS_SERVER_SMTP_FROM = "'Support Team' <example.com>"
+NODEJS_SERVER_SMTP_USERNAME = "username"
+NODEJS_SERVER_SMTP_PASSWORD = "password"
+
 
 # service: cgx-profilex-client
 VITE_SERVER_API_BASE_URL = "Your domain name or ip address."
@@ -256,6 +269,11 @@ To stop and remove all containers:
 ```bash
 docker compose down
 ```
+
+## Credits
+
+The OTP input component used in this project is based on the implementation by Stephen Gbolagade, available [here](https://dev.to/stephengade/build-otp-input-field-in-react-no-package-needed-4n65).
+The original logic and structure have been adapted to fit the needs of this project.
 
 ## Acknowledgements
 

@@ -29,7 +29,7 @@ export namespace APIsSCs {
 
             | APIsSCsEnum.SERVER_ERROR;
 
-        export type SignIn =
+        export type Login =
             | APIsSCsEnum.OK
 
             | APIsSCsEnum.NOT_FOUND
@@ -39,18 +39,36 @@ export namespace APIsSCs {
 
             | APIsSCsEnum.SERVER_ERROR;
 
-        export type SignOut =
+        export type Logout =
             | APIsSCsEnum.OK
 
             | APIsSCsEnum.UNAUTHORIZED
 
             | APIsSCsEnum.SERVER_ERROR;
 
-        export type SignUp =
+        export type SignUpRequest =
             | APIsSCsEnum.CREATED
 
             | APIsSCsEnum.BAD_REQUEST
             | APIsSCsEnum.CONFLICT
+
+            | APIsSCsEnum.SERVER_ERROR;
+
+        export type ResendOTP =
+            | APIsSCsEnum.CREATED
+
+            | APIsSCsEnum.BAD_REQUEST
+            | APIsSCsEnum.NOT_FOUND
+            | APIsSCsEnum.TOO_MANY_REQUESTS
+
+            | APIsSCsEnum.SERVER_ERROR;
+
+        export type Register =
+            | APIsSCsEnum.CREATED
+
+            | APIsSCsEnum.BAD_REQUEST
+            | APIsSCsEnum.NOT_FOUND
+            | APIsSCsEnum.UNAUTHORIZED
 
             | APIsSCsEnum.SERVER_ERROR;
 

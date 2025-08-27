@@ -10,6 +10,15 @@ const dataPolicyRules = {
             expiresInSecs: 3600,
             regex: new RegExp("^[A-Za-z0-9-_.]+\\.([A-Za-z0-9-_.]+)\\.([A-Za-z0-9-_.]+)$"),
         },
+        otp: {
+            length: 6,
+            regex: new RegExp("^[A-Za-z0-9]+$"),
+            expiresInSecs: 600,
+            blockResendForSecs: 60,
+        },
+        signUpRequest: {
+            expiresInSecs: 300,
+        }
     },
     user: {
         name: {

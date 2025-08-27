@@ -18,8 +18,8 @@ class UserRepository extends GenericRepository<
         try {
             return await this.model.findOne({ email }).session(session || null).lean<IUser>().exec();
         } catch (error) {
-            throw new SystemError('Failed to create document', {
-                origin: __filename + 'src:database:db:repos:user.repo:UserRepository.create()',
+            throw new SystemError('Failed to find document.', {
+                origin: __filename + 'src:database:db:repos:user.repo:UserRepository.findByEmail()',
                 email,
                 error
             });

@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import SystemError from "../../utils/systemError";
 
 
-const hashPassword = async (password: string) => {
+const hashString = async (password: string) => {
     const saltRounds = 10;
 
     try {
@@ -20,7 +20,7 @@ const hashPassword = async (password: string) => {
 };
 
 
-const verifyPassword = async (
+const verifyHash = async (
     enteredPassword: string,
     storedHashedPassword: string
 ) => {
@@ -40,4 +40,4 @@ const verifyPassword = async (
 };
 
 
-export { hashPassword, verifyPassword };
+export { hashString, verifyHash };

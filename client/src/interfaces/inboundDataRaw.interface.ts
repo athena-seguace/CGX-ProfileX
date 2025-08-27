@@ -20,6 +20,8 @@ export namespace IbDR {
 
         export interface Login extends _NoProps { };
         export interface Logout extends _NoProps { };
+        export interface SignUpRequest extends _NoProps { };
+        export interface ResendOTP extends _NoProps { };
         export interface Register extends _NoProps { };
         export interface ChangePassword extends _NoProps { };
     }

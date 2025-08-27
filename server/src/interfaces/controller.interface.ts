@@ -40,6 +40,22 @@ export namespace GroupedControllerParams {
             ObDR: ObDR.Auth.Logout;
         }
 
+        export interface SignUpRequest {
+            IbD: IbD.Auth.SignUpRequest;
+            SDIn: SDIn.Auth.SignUpRequest;
+            SDOut: SDOut.Auth.SignUpRequest;
+            SECs: SECs.Auth.SignUpRequest;
+            ObDR: ObDR.Auth.SignUpRequest;
+        }
+
+        export interface ResendOTP {
+            IbD: IbD.Auth.ResendOTP;
+            SDIn: SDIn.Auth.ResendOTP;
+            SDOut: SDOut.Auth.ResendOTP;
+            SECs: SECs.Auth.ResendOTP;
+            ObDR: ObDR.Auth.ResendOTP;
+        }
+
         export interface Register {
             IbD: IbD.Auth.Register;
             SDIn: SDIn.Auth.Register;

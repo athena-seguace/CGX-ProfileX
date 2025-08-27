@@ -61,6 +61,22 @@ const authController = {
                 }
             }
         ),
+    signUpRequest:
+        generateSimpleController<GroupedControllerParams.Auth.SignUpRequest>(
+            {
+                requiresSession: false,
+                service: authService.signUpRequest,
+            },
+            SuccessResponseCodesEnum.CREATED,
+        ),
+    resendOTP:
+        generateSimpleController<GroupedControllerParams.Auth.ResendOTP>(
+            {
+                requiresSession: false,
+                service: authService.resendOTP,
+            },
+            SuccessResponseCodesEnum.OK,
+        ),
     register:
         generateSimpleController<GroupedControllerParams.Auth.Register>(
             {

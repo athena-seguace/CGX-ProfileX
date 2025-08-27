@@ -1,4 +1,5 @@
 import { checkDatabaseConnectionStatus } from "../database/db";
+import { verifySMTPConnection } from "../utils/sendEmail";
 import { SECs, ServiceSignature } from "../types/index.types";
 import { SDIn, SDOut } from "../interfaces/index.interface";
 
@@ -17,6 +18,10 @@ class MiscService {
                 serverStatus: "ACTIVE",
                 databaseStatus:
                     await checkDatabaseConnectionStatus()
+                        ? "CONNECTED"
+                        : "DISCONNECTED",
+                smtpStatus:
+                    await verifySMTPConnection()
                         ? "CONNECTED"
                         : "DISCONNECTED",
             }

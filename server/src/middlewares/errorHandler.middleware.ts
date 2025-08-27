@@ -10,6 +10,9 @@ const errorHandlerMiddleware = (
     res: Response,
     next: NextFunction
 ) => {
+    const stackTrace = error?.stack || 'No stack trace available';
+    console.log("stack trace:\n", stackTrace);
+
     if (error instanceof SyntaxError) {
         return new ResponseHandler(res).sendFailed(
             FailedResponseCodeEnum.BAD_REQUEST,
